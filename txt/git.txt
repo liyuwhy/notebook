@@ -1,0 +1,26 @@
+
+
+Working Directory
+
+
+Repository
+  
+ .git -- 版本库
+
+Git  stage 暂存区 
+
+
+1 git add --> 把文件添加进去 把文件添加到暂存区
+2 git commit 提交更改，把暂存区的所以内容提交到当前分支
+
+
+
+git status
+
+git reflog
+
+
+git reset --hard 8991
+
+
+
