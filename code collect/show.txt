@@ -1,0 +1,101 @@
+/**
+ *  文件存储
+ *  sharePreference
+ *  SQLite数据库
+ *  ContentProvider
+ *  网络存储
+ */
+
+
+手机内部存储区域： /data/data/<package name>/files
+
+openFileOutput (filename,Context.MODE_APPEND)  openFileInput(filename)
+/**
+ * [write 将content内容写入文件中 ]
+ * @param content [description]
+ */
+
+public void write(String content){
+	try{
+		FileOutputStream fos = openFileOutput(fileNames,Context.MODE_APPEND);
+		PrintStream ps = new PrintStream(fos);
+		ps.print(content);
+		ps.close();
+		fos.close();
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+}
+/**
+ * [read description] 将文件内容写入程序  StringBuilder --》sb
+ * @return [description]
+ */
+pubic String read(){
+
+	StringBuilder sbBuilder = new StringBuilder("");
+	try{
+		FileOutputStream is = openFileInput(fileName);
+		byte[] buffer = new byte[64];
+		int hasRead;
+		while( (hasRead=is.read(buffer)) != -1){
+			sbBuilder.append(new String(buffer,0,hasRead));
+		}
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+	return sbBuilder.toString();
+}
+
+
+
+
+对SD卡内内容进行读写：
+
+public void write(String content){
+	try{
+		if( Environment.getExternalStorageState().equals(Enviroment.MEDIA_MOUNTED)){
+			File sdCard = Enviroment.getExternalStorageStateDirectory();
+			File destFile= new File(sdCard.getCanonicalPath()+File.seprator+filename);
+			RandomAccessFile raf = new RandomAccessFile(destFile,"rw");
+			raf.seek(destFile.length());
+			raf.write(cotnent.getBytes());
+			raf.close();
+		}
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+}
+
+
+public String read(){
+     StringBuilder sbBuilder = new StringBuilder("");
+     try{
+     	if(Enviroment.getExternalStorageState().equals(Enviroment.MEDIA_MOUNTED)){
+     		File sdCard = Enviroment.getExternalStorageStateDirectory();
+     		File destFile = new File(sdCard.getCanonicalPath()+File.seprator+fileName);
+     		FileInputStream fis = new FileInputStream(destFile);
+     		byte[] buffer = new byte[64];
+     		int hasRead;
+     		while(( hasRead=fis.read(buffer)) != -1 ){
+     			sbBuilder.append(new String(buffer,0,hasRead));
+     		} 
+     	}catch(Exception e){
+     		e.printStackTrace();
+     	}
+     }
+}
+
+
+sharePreference 的使用 写入到xml中
+
+sharePreferences sf= getSharePrefrence("key",Context.MODE_PRIVATE);
+Editor editor = sf.edit();
+editor.putString("name","code");
+editor.putInt("age",3);
+editor.commit(); 必须经过提交
+
+
+
+SharePreferences rdShare =getSharedPreference("key",Context.MODE_WORLD_READABLE);
+int i = rdShare.getInt("i",0);
+boolean flag = rdShare.getBooolean("flag",false);

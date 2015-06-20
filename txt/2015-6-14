@@ -1,0 +1,45 @@
+iet.jxufe.cn.android
+
+
+String text = "visit <a href=\"http://maning.com/\">";
+mTextView1.setText(Html.fromHtml(text));
+mTextView1.setMovementMethod(LinkMovementMethod.getInstance())
+
+
+Spannable sText = new SpannableString(mTextView.getText());
+sText.setSpan(new BackgroundColorSpan(Color.RED),1,4,0);
+sText.setSpan(new ForegroundColorSpan(Color.BLUE),5,9,0);
+mTextView2.setText(sText);
+
+html 允许 链接 前景色 和 背景 三种形式？
+
+
+listView  和 adapter 的三种方式：
+
+listView
+
+ExpanableListview
+
+AlertDialog
+
+ProgressDialog
+
+
+
+
+ActionBarCompat
+
+
+
+
+
+
+markdown
+
+
+sublime text
+插件下载
+
+
+
+

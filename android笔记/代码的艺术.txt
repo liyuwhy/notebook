@@ -1,0 +1,112 @@
+[TOC]
+#关于代码的艺术
+* android经典架构
+* 好的设计方法
+* 编码中的技巧与方法规范
+
+##资源类
+    组合资源的类，我们常常用到许多静态或者形式类似的资源。
+    如何将其组合、组织成高效简洁 易用的资源类
+
+>JavaBean是一个良好的将关系表格中映射到实体的类，
+>其中有set方法和get方法 ，提供向外接口
+
+实例1
+组合android资源 ，并且根据资源类别创建分享Intent 
+``` java
+ 
+   /**
+ * This class encapsulates a content item. Referencing the content's type, and the differing way
+ * to reference the content (asset URI or resource id).
+ */
+
+
+ 
+ 
+public class ContentItem {
+    // Used to signify an image content type
+    public static final int CONTENT_TYPE_IMAGE = 0;
+    // Used to signify a text/string content type
+    public static final int CONTENT_TYPE_TEXT = 1;
+
+
+    public final int contentType;
+    public final int contentResourceId;
+    public final String contentAssetFilePath;
+
+    /**
+     * Creates a ContentItem with the specified type, referencing a resource id.
+     *
+     * @param type - One of {@link #CONTENT_TYPE_IMAGE} or {@link #CONTENT_TYPE_TEXT}
+     * @param resourceId - Resource ID to use for this item's content
+     */
+    public ContentItem(int type, int resourceId) {
+        contentType = type;
+        contentResourceId = resourceId;
+        contentAssetFilePath = null;
+    }
+
+    /**
+     * Creates a ContentItem with the specified type, referencing an asset file path.
+     *
+     * @param type - One of {@link #CONTENT_TYPE_IMAGE} or {@link #CONTENT_TYPE_TEXT}
+     * @param assetFilePath - File path from the application's asset for this item's content
+     */
+    public ContentItem(int type, String assetFilePath) {
+        contentType = type;
+        contentAssetFilePath = assetFilePath;
+        contentResourceId = 0;
+    }
+
+    /**
+     * @return Uri to the content
+     */
+    public Uri getContentUri() {
+        if (!TextUtils.isEmpty(contentAssetFilePath)) {
+            // If this content has an asset, then return a AssetProvider Uri
+            return Uri.parse("content://" + AssetProvider.CONTENT_URI + "/" + contentAssetFilePath);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Returns an {@link android.content.Intent} which can be used to share this item's content with other
+     * applications.
+     *
+     * @param context - Context to be used for fetching resources if needed
+     * @return Intent to be given to a ShareActionProvider.
+     */
+    public Intent getShareIntent(Context context) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+
+        switch (contentType) {
+            case CONTENT_TYPE_IMAGE:
+                intent.setType("image/jpg");
+                // Bundle the asset content uri as the EXTRA_STREAM uri
+                intent.putExtra(Intent.EXTRA_STREAM, getContentUri());
+                break;
+
+            case CONTENT_TYPE_TEXT:
+                intent.setType("text/plain");
+                // Get the string resource and bundle it as an intent extra
+                intent.putExtra(Intent.EXTRA_TEXT, context.getString(contentResourceId));
+                break;
+        }
+
+        return intent;
+    }
+
+}
+
+```
+
+
+#代码命名规范
+[一个完整的Google Java代码 规范](http://google-styleguide.googlecode.com/svn/trunk/javaguide.html#s7.1.1-javadoc-multi-line)
+静态变量使用大写并下划线连接 如 public static String CONTENT_INTENT_STR = "show"
+
+
+##一些常用关键字
+
+

@@ -1,0 +1,40 @@
+AsyncTask 使用
+
+
+ProgressBar 使用：
+
+进度框
+ProgressBar
+
+
+
+命名：
+驼峰命名  MainActivity
+变量不多时可以用 TextView ->tv
+xml： main_menu
+Item share 
+
+名字+类型名
+
+
+模式：简单游戏开发
+
+
+
+
+
+
+自定义View 下拉view
+
+
+面向对象的特点：
+
+抽象： 简化事物的方法，抽出我们关注的重点，
+      
+      
+
+继承 层次关系  表达一种层次关系，通过继承，子类获得父类的方法和实例变量
+使得代码可以复用
+
+封装： 权限设置 界限 可见性 对象
+

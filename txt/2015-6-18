@@ -1,0 +1,33 @@
+
+烤面包
+nodes  link
+
+
+5-13
+
+
+ lineLayout.addView(textView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+java.lang.IllegalStateException: The specified child already has a parent. You must call removeView() on the child's parent first
+
+setContentView 
+
+
+ViewGroup parent = (ViewGroup) v.getParent();
+if(parent!=null){
+  parent.removeAllViews()
+}
+
+
+
+activity的启动方式：
+
+
+1 standard 在zhan顶部加入新Activity
+2 SingleTop  自身跳转
+3 SingleTask  清空到已存在的Activity
+4 SingleInstance  新建
+
+
+
+
